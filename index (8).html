@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ABC Adventure: a fun spelling game for kids ages 3-8 with Buddy the puppy and Kit the kitten.">
+<meta name="theme-color" content="#7a5cff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ABC Adventure">
+<meta property="og:description" content="Spell words, collect stickers and play with Buddy and Kit.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A4%3C/text%3E%3C/svg%3E">
+<title>ABC Adventure</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<style>
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid}
+html{line-height:1.5;-webkit-text-size-adjust:100%}
+h2,p{margin:0}h2{font-size:inherit;font-weight:inherit}ul{list-style:none;margin:0;padding:0}
+button,input{font-family:inherit;font-size:100%;line-height:inherit;color:inherit;margin:0;padding:0;background:transparent}
+button{cursor:pointer}svg{display:block;vertical-align:middle}
+.flex{display:flex}.grid{display:grid}.hidden{display:none}.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}
+.gap-2{gap:.5rem}.gap-3{gap:.75rem}.grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.font-bold{font-weight:700}.text-center{text-align:center}.text-left{text-align:left}
+.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}
+.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}
+.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}
+.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.my-3{margin-top:.75rem;margin-bottom:.75rem}.my-5{margin-top:1.25rem;margin-bottom:1.25rem}
+:root{--bg1:#c8d4ff;--bg2:#ffe8f2;--card:#fffaf5;--ink:#4a3f5c;--soft:#8b7fa0;--slot:#f3e6ee;--line:#e4cddc;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1f3a3a;--bg2:#3a2a44;--card:#2f2840;--ink:#fdf3ff;--soft:#c3b6d8;--slot:#443a58;--line:#5b4d73}}
+html,body{height:100%}
+body{margin:0;font-family:'Fredoka','Trebuchet MS','Comic Sans MS',system-ui,sans-serif;color:var(--ink);background:linear-gradient(170deg,var(--bg1),var(--bg2));min-height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.hills{position:fixed;left:0;right:0;bottom:0;height:30vh;background:radial-gradient(90% 100% at 10% 100%,#8fd98b 0 48%,transparent 49%),radial-gradient(110% 100% at 90% 100%,#a9e59a 0 52%,transparent 53%),radial-gradient(140% 100% at 50% 100%,#c8f0ae 0 55%,transparent 56%);pointer-events:none;z-index:0}
+.deco span{position:fixed;z-index:0;pointer-events:none;animation:drift 8s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(14px,-12px)}}
+.opt{border:0;font:inherit;color:var(--ink);cursor:pointer;touch-action:manipulation}
+.opt.sel{background:#7a5cff;color:#fff}
+#album,#grown{position:fixed;inset:0;z-index:60;background:rgba(40,30,60,.55);display:none;padding:20px;overflow:auto}
+#album.open,#grown.open{display:block}
+.sticker{aspect-ratio:1;border-radius:18px;background:var(--slot);display:grid;place-items:center;font-size:clamp(1.6rem,8vw,2.4rem)}
+.sticker.off{filter:grayscale(1);opacity:.4}
+#start{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:20px;background:linear-gradient(180deg,var(--bg1),var(--bg2))}
+#start.gone{display:none}
+.mascot svg{animation:bob 3s ease-in-out infinite}
+.mascot svg circle[r="5.5"]{transform-box:fill-box;transform-origin:center;animation:blink 4s infinite}
+@keyframes bob{50%{transform:translateY(-5px) rotate(2deg)}}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+@media (prefers-color-scheme:light){body[data-scene=beach]{--bg1:#9fe3ff;--bg2:#fff1c9}body[data-scene=night]{--bg1:#b9b4f5;--bg2:#f2c9f2}body[data-scene=candy]{--bg1:#ffd1e8;--bg2:#e2d4ff}body[data-scene=forest]{--bg1:#c7f0c2;--bg2:#fff4c4}}
+.btn,.tile{position:relative}
+.btn::after,.tile::after{content:"";position:absolute;inset:4px 8px auto 8px;height:40%;border-radius:999px 999px 60% 60%;background:rgba(255,255,255,.3);pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:14px 14px 40px}
+.card{background:var(--card);border:5px solid var(--line);border-radius:40px;box-shadow:0 10px 0 rgba(160,130,170,.18),0 20px 40px rgba(120,90,140,.14);padding:18px}
+.pill{background:var(--card);border-radius:999px;padding:6px 14px;font-weight:700;font-size:1.05rem;box-shadow:0 4px 0 rgba(160,130,170,.18);display:flex;gap:6px;align-items:center}
+.slot{width:clamp(44px,13vw,68px);height:clamp(54px,16vw,80px);border-radius:18px;background:var(--slot);border:3px dashed var(--line);display:grid;place-items:center;font-size:clamp(1.7rem,7vw,2.6rem);font-weight:700;transition:transform .2s}
+.slot.on{border:3px solid transparent;color:#fff;animation:pop .35s}
+.tile{width:clamp(50px,15vw,76px);height:clamp(50px,15vw,76px);border-radius:20px;border:0;font:inherit;font-weight:700;font-size:clamp(1.7rem,7vw,2.6rem);color:#fff;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.18);transition:transform .1s,box-shadow .1s;touch-action:manipulation}
+.tile:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.tile:focus-visible,.btn:focus-visible{outline:4px solid #7a5cff;outline-offset:3px}
+.tile.gone{visibility:hidden}
+.tile.hint{animation:wob .6s 3}
+.tile.shake{animation:shake .4s}
+.btn{border:0;font:inherit;font-weight:700;border-radius:999px;padding:14px 26px;font-size:1.25rem;color:#fff;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.18);touch-action:manipulation;transition:transform .1s}
+.btn:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.pic{font-size:clamp(5.5rem,28vw,9rem);line-height:1;filter:drop-shadow(0 10px 8px rgba(0,0,0,.15));animation:float 3s ease-in-out infinite;cursor:pointer;background:radial-gradient(circle,#fff4c2 0 58%,transparent 60%);border:0;padding:0 .12em}
+.pic.win{animation:hop .8s}
+.mascot{font-size:4.2rem;line-height:1;display:inline-block;transition:transform .2s;filter:drop-shadow(0 6px 5px rgba(0,0,0,.18))}
+.mascot.cheer{animation:hop .8s}
+.mascot.oops{animation:shake .4s}
+.bubble{background:var(--slot);border-radius:18px;padding:6px 14px;font-weight:600;font-size:1rem;max-width:60%}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-34px) rotate(-8deg)}60%{transform:translateY(-10px) rotate(8deg)}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes wob{50%{transform:scale(1.2) rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+</style>
+</head>
+<body>
+<div class="hills"></div>
+<div class="deco" aria-hidden="true"><span style="top:5%;left:6%;font-size:3.6rem">☀️</span><span style="top:10%;right:8%;font-size:3rem;animation-delay:-2s">☁️</span><span style="top:38%;left:2%;font-size:2.2rem;animation-delay:-4s">☁️</span><span style="top:30%;right:3%;font-size:2rem;animation-delay:-1s">🦋</span><span style="bottom:12%;left:5%;font-size:2.2rem;animation-delay:-3s">🌼</span><span style="bottom:10%;right:6%;font-size:2.2rem;animation-delay:-5s">🌈</span></div>
+<div id="album" role="dialog" aria-label="My stickers"><div class="card" style="max-width:560px;margin:0 auto"><div class="flex justify-between items-center mb-3"><h2 class="text-2xl font-bold">My stickers</h2><button class="btn" id="closeAlbum" style="background:#e0699b;padding:8px 18px;font-size:1rem">Close</button></div><div id="grid" class="grid grid-cols-5 gap-2"></div></div></div>
+<div id="start"><div class="card text-center" style="max-width:420px;width:100%"><div id="sm" class="flex justify-center"></div><div class="font-bold" style="font-size:2.4rem;line-height:1.1;background:linear-gradient(90deg,#7a5cff,#e0699b,#ff9a3c,#f5c211);-webkit-background-clip:text;background-clip:text;color:transparent">ABC Adventure</div><p class="my-3 text-lg">What’s your name?</p><input id="nm" maxlength="12" autocomplete="off" placeholder="Type here" aria-label="Your name" style="font:inherit;font-size:1.5rem;text-align:center;width:100%;padding:10px;border-radius:20px;border:3px solid var(--line);background:var(--slot);color:var(--ink)"><div class="mt-5"><button class="btn" id="go" style="background:#3bb273;font-size:1.6rem;padding:14px 44px">Play</button></div></div></div>
+<div id="grown" role="dialog" aria-label="For grown-ups"><div class="card" style="max-width:560px;margin:0 auto"><div class="flex justify-between items-center mb-3"><h2 class="text-2xl font-bold">For grown-ups</h2><button class="btn" id="closeGrown" style="background:#e0699b;padding:8px 18px;font-size:1rem">Close</button></div><div id="gbody" class="text-left text-lg"></div></div></div>
+<canvas id="fx"></canvas>
+<main class="wrap">
+  <header class="flex items-center justify-between mb-3">
+    <div>
+      <div class="font-bold" style="font-size:2.3rem;line-height:1.1;background:linear-gradient(90deg,#7a5cff,#e0699b,#ff9a3c,#f5c211);-webkit-background-clip:text;background-clip:text;color:transparent">🔤 ABC Adventure</div>
+      <div class="text-sm" style="color:var(--soft)">Learn to spell with Buddy and Kit</div>
+    </div>
+    <div class="flex gap-2"><button id="albumBtn" class="pill" style="border:0;font:inherit;color:inherit;cursor:pointer" aria-label="My stickers">📒 <span id="cnt">0</span></button><button id="mute" class="pill" style="border:0;font:inherit;color:inherit;cursor:pointer" aria-label="Sound on or off">🔊</button></div>
+  </header>
+
+  <section class="flex flex-wrap gap-2 mb-3" aria-label="Your stats">
+    <div class="pill" id="hearts" aria-label="Lives"></div>
+    <div class="pill">⭐ <span id="pts">0</span> points</div>
+    <div class="pill">🔥 <span id="streak">0</span> streak</div>
+    <div class="pill">📅 <span id="days">0</span> days</div>
+    <div class="pill" style="margin-left:auto">Word <span id="num">1</span> of 5</div>
+  </section>
+
+  <section class="flex flex-wrap gap-2 mb-3 justify-center" id="opts" aria-label="Game options">
+<button class="pill opt" data-k="level" data-v="easy">🌱 Easy</button>
+<button class="pill opt" data-k="level" data-v="med">🌿 Medium</button>
+<button class="pill opt" data-k="level" data-v="hard">🌳 Hard</button>
+<button class="pill opt" data-k="mode" data-v="spell">🔤 Spell it</button>
+<button class="pill opt" data-k="mode" data-v="missing">🧩 Missing letter</button>
+<button class="pill opt" data-k="mode" data-v="pick">🖼️ Pick the picture</button>
+<button class="pill opt" data-k="mode" data-v="missing" data-first="1">🅰️ First letter</button>
+<button class="pill opt" data-k="cat" data-v="all">🌈 All</button>
+<button class="pill opt" data-k="cat" data-v="animals">🐾 Animals</button>
+<button class="pill opt" data-k="cat" data-v="food">🍎 Food</button>
+<button class="pill opt" data-k="cat" data-v="nature">🌤️ Nature</button>
+<button class="pill opt" data-k="cat" data-v="things">🧸 Things</button>
+</section>
+
+  <section class="card text-center" id="game">
+    <div class="flex items-center justify-between gap-2 mb-1">
+      <span class="mascot" id="fox"><svg viewBox="0 0 100 100" width="78" height="78" aria-label="Kit the kitten"><path d="M16 42L22 8L46 26Z" fill="#ffb86b"/><path d="M84 42L78 8L54 26Z" fill="#ffb86b"/><path d="M24 32L26 17L37 26Z" fill="#ffd0e0"/><path d="M76 32L74 17L63 26Z" fill="#ffd0e0"/><ellipse cx="50" cy="58" rx="37" ry="33" fill="#ffb86b"/><path d="M44 30v8M50 28v9M56 30v8" stroke="#e0883a" stroke-width="4" stroke-linecap="round"/><ellipse cx="50" cy="69" rx="15" ry="11" fill="#fff4e4"/><circle cx="35" cy="54" r="5.5" fill="#3b2b3f"/><circle cx="65" cy="54" r="5.5" fill="#3b2b3f"/><circle cx="37" cy="52" r="1.8" fill="#fff"/><circle cx="67" cy="52" r="1.8" fill="#fff"/><path d="M46 62h8l-4 5z" fill="#e0699b"/><path d="M50 67q-4 6-8 3M50 67q4 6 8 3" stroke="#3b2b3f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M14 62l14 2M14 70l14-2M86 62l-14 2M86 70l-14-2" stroke="#8b5a2b" stroke-width="1.6" stroke-linecap="round"/><circle cx="26" cy="66" r="5" fill="#ff9bb5" opacity=".5"/><circle cx="74" cy="66" r="5" fill="#ff9bb5" opacity=".5"/></svg></span>
+      <div class="bubble" id="say">Hi, I’m Buddy! Tap the letters to spell the word.</div>
+      <span class="mascot" id="bun"><svg viewBox="0 0 100 100" width="78" height="78" aria-label="Buddy the puppy"><ellipse cx="20" cy="46" rx="12" ry="24" fill="#a9703c" transform="rotate(14 20 46)"/><ellipse cx="80" cy="46" rx="12" ry="24" fill="#a9703c" transform="rotate(-14 80 46)"/><circle cx="50" cy="56" r="35" fill="#f2c48d"/><ellipse cx="50" cy="69" rx="19" ry="15" fill="#fff4e4"/><circle cx="37" cy="50" r="5.5" fill="#3b2b3f"/><circle cx="63" cy="50" r="5.5" fill="#3b2b3f"/><circle cx="39" cy="48" r="1.8" fill="#fff"/><circle cx="65" cy="48" r="1.8" fill="#fff"/><ellipse cx="50" cy="62" rx="7" ry="5" fill="#3b2b3f"/><path d="M43 72q7 12 14 0z" fill="#ff8aa0"/><circle cx="27" cy="64" r="5" fill="#ff9bb5" opacity=".5"/><circle cx="73" cy="64" r="5" fill="#ff9bb5" opacity=".5"/></svg></span>
+    </div>
+    <button class="pic" id="pic" aria-label="Hear the word"></button>
+    <div><button class="btn" id="hear" style="background:#7a5cff;font-size:1rem;padding:8px 18px">🔈 Hear the word</button></div>
+    <div id="slots" class="flex justify-center gap-2 my-5 flex-wrap" aria-live="polite"></div>
+    <div id="tray" class="flex justify-center gap-3 flex-wrap mb-5"></div>
+    <div class="flex justify-center gap-3 flex-wrap">
+      <button class="btn" id="hint" style="background:#f2b441">💡 Hint</button>
+      <button class="btn" id="next" style="background:#3bb273" disabled>Next word ➜</button>
+    </div>
+    <div class="mt-3 text-sm" id="foot" style="color:var(--soft)">&nbsp;</div>
+  </section>
+
+  <div class="text-center mt-4"><button id="gBtn" class="pill" style="border:0;font:inherit;color:inherit;cursor:pointer;display:inline-flex">👪 For grown-ups</button> <a id="tip" class="pill" target="_blank" rel="noopener" style="display:none;margin-left:8px;color:inherit;text-decoration:none;font-size:.9rem">💛 Support us with a tip</a></div>
+  <section class="card text-center hidden" id="end">
+    <div class="text-6xl mb-2">🏅</div>
+    <h2 class="text-3xl font-bold mb-2">Amazing job!</h2>
+    <p class="text-xl mb-4">You spelled <b id="got"></b> words and earned <b id="fin"></b> points.</p>
+    <div class="text-5xl mb-4">🐱 🐶</div>
+    <button class="btn" id="again" style="background:#e0699b">Play again</button>
+  </section>
+</main>
+
+<script>
+const WORDS=[["cat","🐱"],["dog","🐶"],["pig","🐷"],["bee","🐝"],["cow","🐮"],["hen","🐔"],["bat","🦇"],["owl","🦉"],["fox","🦊"],["ant","🐜"],["fish","🐟"],["duck","🦆"],["frog","🐸"],["bear","🐻"],["lion","🦁"],["crab","🦀"],["bird","🐦"],["deer","🦌"],["goat","🐐"],["snail","🐌"],["horse","🐴"],["mouse","🐭"],["tiger","🐯"],["panda","🐼"],["zebra","🦓"],["whale","🐳"],["sheep","🐑"],["bunny","🐰"],["rabbit","🐇"],["monkey","🐵"],["turtle","🐢"],["spider","🕷️"],["apple","🍎"],["pear","🍐"],["corn","🌽"],["cake","🍰"],["egg","🥚"],["milk","🥛"],["pizza","🍕"],["lemon","🍋"],["grape","🍇"],["bread","🍞"],["banana","🍌"],["cherry","🍒"],["sun","☀️"],["moon","🌙"],["star","⭐"],["tree","🌳"],["rain","🌧️"],["snow","❄️"],["flower","🌸"],["cloud","☁️"],["bus","🚌"],["car","🚗"],["boat","⛵"],["train","🚂"],["plane","✈️"],["ball","⚽"],["book","📖"],["drum","🥁"],["hat","🎩"],["shoe","👟"],["key","🔑"],["bell","🔔"],["kite","🪁"],["clock","⏰"],["house","🏠"],["heart","❤️"],["robot","🤖"],["pencil","✏️"]];
+const COLORS=["#f2a33a","#4aa8e0","#e5545f","#58bf5d","#9b6fe0","#e0699b","#2fb8a6"];
+const $=id=>document.getElementById(id);
+let S={pts:0,streak:0,hearts:3,idx:0,queue:[],word:"",pos:0,done:false,right:0,muted:false,level:"easy",mode:"spell",gap:0,cat:"all",first:false};
+try{S.best=+localStorage.getItem("sb_best")||0}catch(e){S.best=0}
+
+let got={},days=0,last="",miss={};
+try{miss=JSON.parse(localStorage.getItem("abc_miss")||"{}")}catch(e){}
+function noteMiss(){miss[S.word]=(miss[S.word]||0)+1;try{localStorage.setItem("abc_miss",JSON.stringify(miss))}catch(e){}}
+try{got=JSON.parse(localStorage.getItem("abc_stickers")||"{}");const d=JSON.parse(localStorage.getItem("abc_days")||"{}");days=d.n||0;last=d.last||""}catch(e){}
+const dstr=ms=>new Date(ms).toLocaleDateString("en-CA");
+function shown(){return last===dstr(Date.now())||last===dstr(Date.now()-864e5)?days:0}
+function markDay(){const t=dstr(Date.now());if(last===t)return;days=last===dstr(Date.now()-864e5)?days+1:1;last=t;try{localStorage.setItem("abc_days",JSON.stringify({n:days,last}))}catch(e){}}
+/* audio */
+let ac;
+function tone(freqs,dur=.14,type="sine"){
+  if(S.muted)return;
+  try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();
+    freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;
+      const t=ac.currentTime+i*dur;g.gain.setValueAtTime(.2,t);g.gain.exponentialRampToValueAtTime(.001,t+dur*1.6);
+      o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur*1.7)})}catch(e){}
+}
+function speak(t,rate=.8){
+  if(S.muted||!("speechSynthesis" in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate;u.pitch=1.2;speechSynthesis.speak(u)}catch(e){}
+}
+
+/* confetti */
+const cv=$("fx"),cx=cv.getContext("2d");let bits=[],raf;
+function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener("resize",size);
+function confetti(){
+  for(let i=0;i<110;i++)bits.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*14,vy:-Math.random()*13-3,r:Math.random()*8+4,c:COLORS[i%7],a:Math.random()*6,s:Math.random()>.7?"star":"sq"});
+  if(!raf)loop();
+}
+function loop(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  bits=bits.filter(b=>b.y<cv.height+20);
+  bits.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vy+=.35;b.vx*=.99;b.a+=.2;cx.fillStyle=b.c;cx.save();cx.translate(b.x,b.y);cx.rotate(b.a);
+    if(b.s==="star")cx.fillText("★",0,0);else cx.fillRect(-b.r/2,-b.r/2,b.r,b.r*.6);cx.restore()});
+  raf=bits.length?requestAnimationFrame(loop):0;
+  if(!raf)cx.clearRect(0,0,cv.width,cv.height);
+}
+
+/* ui helpers */
+function stats(){
+  $("hearts").innerHTML=[0,1,2].map(i=>`<span style="opacity:${i<S.hearts?1:.25}">❤️</span>`).join("");
+  $("pts").textContent=S.pts;$("days").textContent=shown();$("cnt").textContent=Object.keys(got).length+"/"+WORDS.length;$("streak").textContent=S.streak;$("num").textContent=Math.min(S.idx+1,5);
+}
+function mood(who,cls){const el=$(who);el.classList.remove("cheer","oops");void el.offsetWidth;el.classList.add(cls)}
+function say(t){$("say").textContent=t}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* game */
+function newGame(){
+  S.pts=0;S.streak=0;S.hearts=3;S.idx=0;S.right=0;
+  const R={all:[0,WORDS.length],animals:[0,32],food:[32,44],nature:[44,52],things:[52,WORDS.length]}[S.cat],base=WORDS.slice(R[0],R[1]),L=S.level;let pool=base.filter(([w])=>L==="easy"?w.length<=3:L==="med"?w.length>=4&&w.length<=5:w.length>=6);if(pool.length<5)pool=base;
+  S.queue=shuffle(pool).slice(0,5);sync();
+  $("end").classList.add("hidden");$("game").classList.remove("hidden");
+  loadWord();
+}
+function loadWord(){
+  const [w,e]=S.queue[S.idx];S.word=w;S.pos=0;S.done=false;
+  $("pic").textContent=e;$("pic").classList.remove("win");
+  $("slots").innerHTML=[...w].map(()=>`<div class="slot"></div>`).join("");
+  let letters=[...w],mix;
+  do{mix=shuffle(letters)}while(mix.join("")===w&&w.length>1);
+  $("tray").innerHTML=mix.map((l,i)=>`<button class="tile" data-l="${l}" style="background-color:${COLORS[(i+w.length)%7]}" aria-label="Letter ${l}">${l.toUpperCase()}</button>`).join("");
+  $("next").disabled=true;$("hint").disabled=false;
+  $("foot").innerHTML="&nbsp;";say("What is this? Spell it!");
+  document.body.dataset.scene=["meadow","beach","night","candy","forest"][S.idx%5];if(S.mode==="missing")setupMissing();if(S.mode==="pick")setupPick();stats();setTimeout(()=>speak(w),300);
+}
+function pick(btn){
+  if(S.done||btn.classList.contains("gone"))return;
+  const l=btn.dataset.l;
+  document.querySelectorAll(".tile.hint").forEach(t=>t.classList.remove("hint"));
+  if(l===(S.mode==="missing"?S.word[S.gap]:S.word[S.pos])){
+    const slot=$("slots").children[S.mode==="missing"?S.gap:S.pos];
+    slot.textContent=l.toUpperCase();slot.classList.add("on");slot.style.backgroundColor=btn.style.backgroundColor;
+    btn.classList.add("gone");tone([520+S.pos*80],.12);S.pos=S.mode==="missing"?S.word.length:S.pos+1;
+    if(S.pos===S.word.length)win();
+  }else{
+    btn.classList.remove("shake");void btn.offsetWidth;btn.classList.add("shake");
+    tone([220,180],.15,"triangle");mood("fox","oops");noteMiss();
+    S.hearts--;stats();
+    if(S.hearts<=0){say("Oops! Let’s try again with new hearts.");S.hearts=3;S.streak=0;setTimeout(()=>{stats();loadWord()},1200)}
+    else say("Almost! Try a different letter.");
+  }
+}
+function win(){
+  S.done=true;S.pts+=5;S.streak++;S.right++;S.fresh=!got[S.word];got[S.word]=1;markDay();try{localStorage.setItem("abc_stickers",JSON.stringify(got))}catch(e){}
+  try{if(S.streak>S.best){S.best=S.streak;localStorage.setItem("sb_best",S.best)}}catch(e){}
+  stats();confetti();tone([523,659,784,1047],.13);
+  $("pic").classList.add("win");mood("bun","cheer");mood("fox","cheer");
+  say(name?`You got it, ${name}! 🎉`:"You got it! 🎉");$("foot").textContent="+5 points · You spelled it!"+(S.fresh?" · New sticker! 📒":"");
+  setTimeout(()=>speak(S.word+"! Great job!",.9),400);
+  $("next").disabled=false;$("hint").disabled=true;$("next").focus({preventScroll:true});
+}
+function next(){
+  S.idx++;
+  if(S.idx>=5){
+    $("game").classList.add("hidden");$("end").classList.remove("hidden");
+    $("got").textContent=S.right;$("fin").textContent=S.pts;confetti();tone([523,659,784,1047,1319],.14);speak("Amazing job!");return;
+  }
+  loadWord();
+}
+$("tray").addEventListener("click",e=>{const b=e.target.closest(".tile");if(b)(S.mode==="pick"?pickPic:pick)(b)});
+$("hint").onclick=()=>{
+  if(S.mode==="pick"){speak(S.word,.6);return}const want=S.mode==="missing"?S.word[S.gap]:S.word[S.pos];
+  const t=[...document.querySelectorAll(".tile")].find(x=>!x.classList.contains("gone")&&x.dataset.l===want);
+  if(t){t.classList.remove("hint");void t.offsetWidth;t.classList.add("hint");say("Try the wiggling letter!")}
+};
+function setupMissing(){
+  const w=S.word;S.gap=S.first?0:Math.floor(Math.random()*w.length);S.pos=0;say(S.first?"What letter does it start with?":"Which letter is missing?");
+  $("slots").innerHTML=[...w].map((c,i)=>i===S.gap?`<div class="slot"></div>`:`<div class="slot on" style="background-color:${COLORS[i%7]}">${c.toUpperCase()}</div>`).join("");
+  const abc="abcdefghijklmnopqrstuvwxyz";let opts=[w[S.gap]];
+  while(opts.length<4){const c=abc[Math.floor(Math.random()*26)];if(!w.includes(c)&&!opts.includes(c))opts.push(c)}
+  $("tray").innerHTML=shuffle(opts).map((l,i)=>`<button class="tile" data-l="${l}" style="background-color:${COLORS[(i+3)%7]}" aria-label="Letter ${l}">${l.toUpperCase()}</button>`).join("");
+}
+function sync(){document.querySelectorAll(".opt").forEach(b=>b.classList.toggle("sel",S[b.dataset.k]===b.dataset.v&&(b.dataset.k!=="mode"||b.dataset.v!=="missing"||!!S.first===(b.dataset.first==="1"))))}
+$("opts").addEventListener("click",e=>{const b=e.target.closest(".opt");if(!b)return;if(b.dataset.k==="mode")S.first=b.dataset.first==="1";S[b.dataset.k]=b.dataset.v;newGame()});
+function showAlbum(){$("grid").innerHTML=WORDS.map(([w,e])=>`<div class="sticker${got[w]?"":" off"}" title="${got[w]?w:"?"}">${got[w]?e:"❓"}</div>`).join("");$("album").classList.add("open")}
+function setupPick(){
+  const w=S.word;$("pic").textContent="🔊";$("slots").innerHTML="";
+  const opts=shuffle([S.queue[S.idx],...shuffle(WORDS.filter(x=>x[0]!==w)).slice(0,2)]);
+  $("tray").innerHTML=opts.map(([k,e],i)=>`<button class="tile" data-w="${k}" style="background-color:${COLORS[(i+1)%7]};width:clamp(84px,26vw,120px);height:clamp(84px,26vw,120px);font-size:clamp(2.6rem,12vw,4rem)" aria-label="Picture choice">${e}</button>`).join("");
+  say("Which picture is it?");
+}
+function pickPic(btn){
+  if(S.done)return;
+  if(btn.dataset.w===S.word){$("pic").textContent=S.queue[S.idx][1];win();return}
+  btn.classList.remove("shake");void btn.offsetWidth;btn.classList.add("shake");
+  tone([220,180],.15,"triangle");mood("fox","oops");noteMiss();S.hearts--;stats();
+  if(S.hearts<=0){say("Oops! Let’s try again with new hearts.");S.hearts=3;S.streak=0;setTimeout(()=>{stats();loadWord()},1200)}else say("Almost! Try another picture.");
+}
+function showGrown(){
+  const t=Object.entries(miss).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  $("gbody").innerHTML=`<p>Words learned: <b>${Object.keys(got).length}</b> of ${WORDS.length}</p><p>Days in a row: <b>${shown()}</b></p><p>Words to practice:</p>`+(t.length?`<ul>${t.map(([w,n])=>`<li>${w} (${n} missed)</li>`).join("")}</ul>`:`<p>None yet. Great start!</p>`)+(DONATE?`<p class="mt-4">No ads, just learning. <a href="${DONATE}" target="_blank" rel="noopener" style="color:#7a5cff;font-weight:700">Support us with a tip</a></p>`:"");
+  $("grown").classList.add("open");
+}
+const DONATE="https://www.paypal.com/ncp/payment/Z7Q9AZ9TDKSNU";
+let name="";try{name=localStorage.getItem("abc_name")||""}catch(e){}
+$("nm").value=name;$("sm").innerHTML=$("bun").innerHTML+$("fox").innerHTML;
+function begin(){name=$("nm").value.trim().slice(0,12);try{localStorage.setItem("abc_name",name)}catch(e){}$("start").classList.add("gone");say(name?`Hi, ${name}! Let’s spell!`:"Hi, I’m Buddy! Tap the letters to spell the word.");tone([523,659,784],.1);speak(S.word)}
+$("go").onclick=begin;$("nm").addEventListener("keydown",e=>{if(e.key==="Enter")begin()});
+if(DONATE){$("tip").href=DONATE;$("tip").style.display="inline-flex"}
+$("gBtn").onclick=showGrown;$("closeGrown").onclick=()=>$("grown").classList.remove("open");
+$("albumBtn").onclick=showAlbum;$("closeAlbum").onclick=()=>$("album").classList.remove("open");
+$("next").onclick=next;$("again").onclick=newGame;
+$("hear").onclick=$("pic").onclick=()=>speak(S.word);
+$("mute").onclick=()=>{S.muted=!S.muted;$("mute").textContent=S.muted?"🔇":"🔊";if(S.muted&&window.speechSynthesis)speechSynthesis.cancel()};
+newGame();
+</script>
+</body>
+</html>
